@@ -1,0 +1,29 @@
+{
+  "identifier" : "trove",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "2.99",
+      "familyShareable" : false,
+      "internalID" : "trove_pro_unlock",
+      "localizations" : [
+        {
+          "description" : "Unlimited pets and full weight history",
+          "displayName" : "Trove Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "trove_pro_unlock",
+      "referenceName" : "Trove Pro Unlock",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
