@@ -112,7 +112,13 @@ final class TroveUITests: XCTestCase {
         )
         _ = XCTWaiter.wait(for: [dismissedExpectation], timeout: 6)
 
-        XCTAssertFalse(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 6), "Pet was not deleted")
+        // Extra settle time for the Combine publish -> SwiftUI diff -> list
+        // row removal to finish propagating on a loaded CI runner, then a
+        // final fresh existence check (same fix applied to Ream's analogous
+        // delete test).
+        Thread.sleep(forTimeInterval: 1.0)
+        let stillThere = app.buttons["petNameLabel_Buddy"].exists
+        XCTAssertFalse(stillThere, "Pet was not deleted")
     }
 
     func testFreeLimitTriggersPaywallAtSecondPet() throws {
