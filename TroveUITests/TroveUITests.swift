@@ -91,13 +91,17 @@ final class TroveUITests: XCTestCase {
         XCTAssertTrue(deleteButton.waitForExistence(timeout: 12), "Delete Pet button did not appear in edit form")
         // Delete Pet sits in the last Form section and can exist in the
         // accessibility hierarchy without being scrolled into view yet —
-        // tapping a non-hittable element silently no-ops. Scroll it into
-        // view before tapping (same fix applied to Ream's analogous test).
-        if !deleteButton.isHittable {
+        // tapping a non-hittable element silently no-ops. A blind
+        // app.swipeUp() risks scrolling the wrong amount or landing the drag
+        // on an adjacent control just above the button — retry the scroll a
+        // few times and tap via an explicit coordinate (same fix applied to
+        // Ream's analogous test, where a plain .tap() after scrolling
+        // reproducibly failed to trigger dismiss()).
+        for _ in 0..<3 where !deleteButton.isHittable {
             app.swipeUp()
         }
         XCTAssertTrue(deleteButton.isHittable, "Delete Pet button exists but is not hittable even after scrolling")
-        deleteButton.tap()
+        deleteButton.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
 
         // Wait for the edit-pet sheet to actually finish dismissing before
         // checking the Home list — tapping Delete both mutates @Published pets
