@@ -89,6 +89,14 @@ final class TroveUITests: XCTestCase {
 
         let deleteButton = app.buttons["deletePetButton"]
         XCTAssertTrue(deleteButton.waitForExistence(timeout: 12), "Delete Pet button did not appear in edit form")
+        // Delete Pet sits in the last Form section and can exist in the
+        // accessibility hierarchy without being scrolled into view yet —
+        // tapping a non-hittable element silently no-ops. Scroll it into
+        // view before tapping (same fix applied to Ream's analogous test).
+        if !deleteButton.isHittable {
+            app.swipeUp()
+        }
+        XCTAssertTrue(deleteButton.isHittable, "Delete Pet button exists but is not hittable even after scrolling")
         deleteButton.tap()
 
         XCTAssertFalse(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 6), "Pet was not deleted")

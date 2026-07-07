@@ -225,6 +225,7 @@ struct TrendNeedleDial: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(trendColor)
             }
+            .accessibilityElement(children: .combine)
             .accessibilityIdentifier("trendLabel_\(pet.name)")
         }
         .onAppear {
