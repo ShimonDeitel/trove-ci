@@ -51,10 +51,15 @@ struct PetFormView: View {
                 if isEditing {
                     Section {
                         Button("Delete Pet", role: .destructive) {
-                            if let existing {
-                                store.deletePet(existing.id)
-                            }
+                            // Dismiss first, then mutate the store on the next
+                            // run loop turn — see the identical fix and
+                            // rationale in Ream's SupplyFormView delete button.
                             dismiss()
+                            if let existing {
+                                DispatchQueue.main.async {
+                                    store.deletePet(existing.id)
+                                }
+                            }
                         }
                         .accessibilityIdentifier("deletePetButton")
                     }
