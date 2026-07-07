@@ -32,18 +32,18 @@ final class TroveUITests: XCTestCase {
 
     func testHomeShowsSeedPetOnLaunch() throws {
         let app = launchApp()
-        XCTAssertTrue(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 12), "Seed pet did not appear on launch")
+        XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12), "Seed pet did not appear on launch")
     }
 
     func testTrendDialAppearsForSeedPet() throws {
         let app = launchApp()
-        XCTAssertTrue(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12))
         XCTAssertTrue(app.staticTexts["trendLabel_Buddy"].waitForExistence(timeout: 12), "Trend dial label did not appear")
     }
 
     func testLogWeightFromHome() throws {
         let app = launchApp()
-        XCTAssertTrue(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12))
 
         let logButton = app.buttons["logWeightButton_Buddy"]
         XCTAssertTrue(logButton.waitForExistence(timeout: 12))
@@ -59,12 +59,12 @@ final class TroveUITests: XCTestCase {
         XCTAssertTrue(saveButton.isEnabled)
         saveButton.tap()
 
-        XCTAssertTrue(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 12), "Home did not reappear after logging weight")
+        XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12), "Home did not reappear after logging weight")
     }
 
     func testEditPetChangesName() throws {
         let app = launchApp()
-        let petLabel = app.staticTexts["petNameLabel_Buddy"]
+        let petLabel = app.buttons["petNameLabel_Buddy"]
         XCTAssertTrue(petLabel.waitForExistence(timeout: 12))
         petLabel.tap()
 
@@ -77,18 +77,18 @@ final class TroveUITests: XCTestCase {
 
         app.buttons["savePetButton"].tap()
 
-        XCTAssertTrue(app.staticTexts["petNameLabel_Charlie"].waitForExistence(timeout: 12), "Pet name did not update")
+        XCTAssertTrue(app.buttons["petNameLabel_Charlie"].waitForExistence(timeout: 12), "Pet name did not update")
     }
 
     func testDeletePetViaForm() throws {
         let app = launchApp()
-        let petLabel = app.staticTexts["petNameLabel_Buddy"]
+        let petLabel = app.buttons["petNameLabel_Buddy"]
         XCTAssertTrue(petLabel.waitForExistence(timeout: 12))
         petLabel.tap()
 
         app.buttons["deletePetButton"].tap()
 
-        XCTAssertFalse(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 6), "Pet was not deleted")
+        XCTAssertFalse(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 6), "Pet was not deleted")
     }
 
     func testFreeLimitTriggersPaywallAtSecondPet() throws {
@@ -120,7 +120,7 @@ final class TroveUITests: XCTestCase {
 
     func testDeleteEntryFromHistory() throws {
         let app = launchApp()
-        XCTAssertTrue(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12))
 
         // Seed pet has 3 entries; open the ellipsis menu on the first visible one and delete.
         let menus = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'entryMenu_Buddy_'"))
@@ -132,6 +132,6 @@ final class TroveUITests: XCTestCase {
         deleteItem.tap()
 
         // App should not crash and pet card should still be present.
-        XCTAssertTrue(app.staticTexts["petNameLabel_Buddy"].waitForExistence(timeout: 12))
+        XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12))
     }
 }
