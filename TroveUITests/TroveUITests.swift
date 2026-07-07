@@ -38,7 +38,8 @@ final class TroveUITests: XCTestCase {
     func testTrendDialAppearsForSeedPet() throws {
         let app = launchApp()
         XCTAssertTrue(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 12))
-        XCTAssertTrue(app.staticTexts["trendLabel_Buddy"].waitForExistence(timeout: 12), "Trend dial label did not appear")
+        let trendLabel = app.descendants(matching: .any)["trendLabel_Buddy"]
+        XCTAssertTrue(trendLabel.waitForExistence(timeout: 12), "Trend dial label did not appear")
     }
 
     func testLogWeightFromHome() throws {
@@ -86,7 +87,9 @@ final class TroveUITests: XCTestCase {
         XCTAssertTrue(petLabel.waitForExistence(timeout: 12))
         petLabel.tap()
 
-        app.buttons["deletePetButton"].tap()
+        let deleteButton = app.buttons["deletePetButton"]
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: 12), "Delete Pet button did not appear in edit form")
+        deleteButton.tap()
 
         XCTAssertFalse(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 6), "Pet was not deleted")
     }
