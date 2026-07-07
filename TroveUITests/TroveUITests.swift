@@ -99,6 +99,19 @@ final class TroveUITests: XCTestCase {
         XCTAssertTrue(deleteButton.isHittable, "Delete Pet button exists but is not hittable even after scrolling")
         deleteButton.tap()
 
+        // Wait for the edit-pet sheet to actually finish dismissing before
+        // checking the Home list — tapping Delete both mutates @Published pets
+        // and calls dismiss() in the same closure; if the check runs while the
+        // sheet dismiss animation and the Combine-driven list re-render are
+        // still settling, the stale element can still briefly satisfy
+        // existsNoRetry (same race fixed in Ream's analogous test).
+        let editFormNavBar = app.navigationBars["Edit Pet"]
+        let dismissedExpectation = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "exists == false"),
+            object: editFormNavBar
+        )
+        _ = XCTWaiter.wait(for: [dismissedExpectation], timeout: 6)
+
         XCTAssertFalse(app.buttons["petNameLabel_Buddy"].waitForExistence(timeout: 6), "Pet was not deleted")
     }
 
