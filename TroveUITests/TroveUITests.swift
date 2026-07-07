@@ -116,7 +116,7 @@ final class TroveUITests: XCTestCase {
         // row removal to finish propagating on a loaded CI runner, then a
         // final fresh existence check (same fix applied to Ream's analogous
         // delete test).
-        Thread.sleep(forTimeInterval: 1.0)
+        Thread.sleep(forTimeInterval: 2.0)
         let stillThere = app.buttons["petNameLabel_Buddy"].exists
         XCTAssertFalse(stillThere, "Pet was not deleted")
     }
