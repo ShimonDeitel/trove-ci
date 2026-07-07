@@ -97,8 +97,13 @@ struct TroveHomeView: View {
             /// Quirky signature feature: a literal vet-scale needle dial that
             /// swings live to point at the pet's trend direction (gaining
             /// right / losing left / stable center), driven by trendMagnitude.
+            // Note: no accessibilityIdentifier is applied here at the call site —
+            // TrendNeedleDial's internal HStack already carries its own
+            // "trendLabel_<name>" identifier via .accessibilityElement(children: .combine).
+            // Applying a second identifier ("trendDial_<name>") to the whole view from
+            // outside competed with/shadowed that inner identifier in the accessibility
+            // tree, making "trendLabel_<name>" unreliable to query from XCUITest.
             TrendNeedleDial(pet: pet, unit: unit)
-                .accessibilityIdentifier("trendDial_\(pet.name)")
 
             if pet.entries.isEmpty {
                 Text("No weigh-ins yet. Tap + to log the first one.")
